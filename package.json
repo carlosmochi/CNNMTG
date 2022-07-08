@@ -1,0 +1,7 @@
+{
+  "name": "flaskIntegration",
+  "version": "1.0.0",
+  "dependencies": {
+    "file-saver": "^2.0.5"
+  }
+}

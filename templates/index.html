@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="br">
+<head>
+  <meta charset="utf-8">
+  <title>Card Catalogue</title>
+  <link  rel="stylesheet" href="{{url_for('static', filename='/css/SideNavigationBar.css')}}">
+  <link href="{{url_for('static', filename='/css/CardDetails.css')}}" rel="stylesheet">
+
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script src="{{url_for('static', filename='/js/SideNavigation.js')}}" type="module"></script>
+  <script src="{{url_for('static', filename='/js/ScryfallIntegration.js')}}" type="module"></script>
+  <script src="{{url_for('static', filename='/js/cardRecog.js')}}" type="module"></script>
+    <script src="{{url_for('static', filename='/js/CatalogControl.js')}}" type="module"></script>
+</head>
+<body>
+    <div id="screen">
+        <div id="sideNavigation" class="sidenav">
+            <input style="margin-left: 20px" type="text" placeholder="ex. Rosheen Meanderer" id="cardQuery" oninput="searchFunctions.getCardbyQuery()" >
+            <a href="javascript:void(0)" class="closebtn" onclick="sideNavigation.closeSideNav()">Close</a>
+            <button onclick="cardRecog.hideCamera()">Esconder câmera</button>
+            <button onclick="cardRecog.showCamera();cardRecog.runCamera()">Habilitar câmera</button>
+            <button onclick="cardRecog.testing(cardRecog.captureB64Image())">Identificar carta</button>
+            <button onclick="catalogControl.addToCatalog()">Adicionar ao Catálogo</button>
+            <button onclick="catalogControl.downloadCatalog()">Baixar Catálogo</button>
+{#            <button onclick="cardRecog.capturedImage()">ver Imagem</button>#}
+        </div>
+        <button style="height: 50px; width: 100px; margin-left: 0; position: absolute" onclick="sideNavigation.openSideNav()">Open</button>
+        <div id="screenSpace">
+            <div id="cardDetails">
+                <div id="cardImage">
+                    <ul>
+                        <img id="cardIMG">
+                        <video hidden autoplay="true" id="videoElement"></video>
+                        <canvas hidden id="canvas"></canvas>
+                    </ul>
+                </div>
+                <div class="cardData">
+                    <div class="cardName"><a id="cardName"></a></div>
+                    <div class="cardAdtInfo">
+                        <div class="cardType"><a id="cardType"></a></div>
+                        <div class="cardCMC"><a id="cardCMC"></a></div>
+                        <div class="cardFlavor"><a id="cardFlavor"></a></div>
+                        <div class="cardText"><a id="cardText"></a></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

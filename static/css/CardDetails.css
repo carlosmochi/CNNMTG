@@ -1,0 +1,127 @@
+#screen{
+  padding: 0;
+  margin: 0;
+  border: 0;
+}
+body{
+  margin: 1px
+}
+
+button{
+  width: 147px;
+  margin-left: 20px;
+}
+
+#screenSpace{
+  height: 100%;
+  padding: 0;
+  margin: 0;
+  border: 0;
+}
+#cardDetails{
+  border: #111111;
+  border-width: 0.5px;
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-rows: 2fr 1fr;
+  align-content: center;
+  flex-direction: column;
+
+}
+
+#imageList{
+  padding: 0;
+  margin: 0 auto;
+  max-height: 100%;
+  overflow: hidden;
+}
+
+#videoElement{
+  /*height: 626px;*/
+  /*width: 457px;*/
+  margin: 0 auto;
+}
+
+#cardImage{
+  width: 100%;
+  height: 0.75vh;
+  margin: 0 auto;
+}
+#cardIMG{
+  margin: 0 auto;
+  height: 520px;
+  padding-left: 35%;
+}
+.cardData{
+  height: 34vh;
+  width: 100%;
+  background-color: purple;
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+}
+.cardName{
+  margin-left: 15px;
+  margin-right: 15px;
+  vertical-align: bottom;
+  text-align: center;
+  margin-bottom: 15px;
+  background-color: #ddffff;
+  margin-top: 20px;
+  height: 30px;
+}
+#cardName{
+  vert-align: bottom;
+  background-color: yellow;
+  margin: 0 auto;
+  font-family: Arial;
+  text-align: center;
+}
+
+.cardAdtInfo{
+  padding-left: 15px;
+  padding-right: 15px;
+  display: grid;
+  align-content: center;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 20px;
+}
+.cardType{
+  text-align: center;
+  border: #111111;
+  background-color: #ddddff;
+  height: 35px;
+  width: 100%;
+}
+#cardType{
+  font-family: Arial;
+}
+
+.cardCMC{
+  text-align: center;
+  border: #111111;
+  background-color: #ddddff;
+  height: 35px;
+  width: 100%;
+}
+#cardCMC{
+  font-family: Arial;
+}
+
+.cardText{
+  padding: 5px;
+  text-align: justify;
+  border: #111111;
+  background-color: #ddddff;
+  height: 100px;
+  width: 100%;
+}
+.cardFlavor{
+  padding: 5px;
+  text-align: justify;
+  border: #111111;
+  background-color: #ddddff;
+  height: 100%;
+  width: 100%;
+}
