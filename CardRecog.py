@@ -11,26 +11,15 @@ import tensorflow as tf
 from tensorflow import keras
 from tensorflow.keras.preprocessing import image
 
-
-#
-# predictions = model.predict(img_array)
-# score = tf.nn.softmax(predictions[0])
-# k = np.argmax(score)
-# print(k, class_names[k])
-
-
-def testing(data):
-    print(data)
-    return "yep, its a " + data
+#Script principal de reconhecimento de imagem
 
 
 def identifyimage(imgb64):
-    model = keras.models.load_model('/Users/carlosmochi/PycharmProjects/flaskIntegration/model306')
-    path = os.path.join("/Users/carlosmochi/PycharmProjects/flaskIntegration/dataset", "khm")
-    # with open(path + '.json', 'r') as file:
-    #     class_json = json.load(file)
-    #     class_json = class_json['data']
-    #     class_json.sort(key=lambda x: x['id'])
+    #Leitura do modelo e da lista de cartas já conhecidas pela máquina
+    #Alterar os PATHs para que eles coincidam com o de sua máquina
+    model = keras.models.load_model('/Users/"seu_computador"/PycharmProjects/flaskIntegration/model306')
+    path = os.path.join("/Users/"seu_computador"/PycharmProjects/flaskIntegration/dataset", "khm")
+    
 
     img_list = os.listdir(path)
     img_list.sort()
@@ -38,19 +27,22 @@ def identifyimage(imgb64):
     card0 = np.zeros((457, 626, 3), np.uint8)
     card = card0
     selectcard = "1"
-
+    
+    #Leitura e trabamento da imagem recebida para o sistema analizar ela
     im_bytes = base64.b64decode(imgb64)
     im_arr = np.frombuffer(im_bytes, dtype=np.uint8)  # im_arr is one-dim Numpy array
     img = cv2.imdecode(im_arr, flags=cv2.IMREAD_COLOR)
     img = cv2.resize(img, (224, 224))
     img_array = keras_preprocessing.image.img_to_array(img)
     img_array = tf.expand_dims(img_array, 0)  # Create a batch
-    # print('image hsape: ',img_array.shape)
+
+    #Função para enviar a imagem à rede para a mesma adivinhar a carta
     predictions = model.predict(img_array)
 
     k = np.argmax(predictions[0])
     score = predictions[0][k]
     print(k, score)
+    #Prediçoes com mais de 90% de certeza enviam esse o ID de volta ao servidor
     if score > 0.9:
         print(k)
         print(img_list[k])
