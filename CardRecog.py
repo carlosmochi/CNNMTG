@@ -20,7 +20,7 @@ def identifyimage(imgb64):
     model = keras.models.load_model('/Users/"seu_computador"/PycharmProjects/flaskIntegration/model306')
     path = os.path.join("/Users/"seu_computador"/PycharmProjects/flaskIntegration/dataset", "khm")
     
-
+    #img_list possui os caminhos das imagens a serem mostradas na conclusão do código
     img_list = os.listdir(path)
     img_list.sort()
     oldk = -1
@@ -28,7 +28,7 @@ def identifyimage(imgb64):
     card = card0
     selectcard = "1"
     
-    #Leitura e trabamento da imagem recebida para o sistema analizar ela
+    #Leitura e tratamento da imagem recebida antes do sistema analiza-la
     im_bytes = base64.b64decode(imgb64)
     im_arr = np.frombuffer(im_bytes, dtype=np.uint8)  # im_arr is one-dim Numpy array
     img = cv2.imdecode(im_arr, flags=cv2.IMREAD_COLOR)
@@ -36,17 +36,18 @@ def identifyimage(imgb64):
     img_array = keras_preprocessing.image.img_to_array(img)
     img_array = tf.expand_dims(img_array, 0)  # Create a batch
 
-    #Função para enviar a imagem à rede para a mesma adivinhar a carta
+    #Envia a imagem para a rede a adivinhar a carta
     predictions = model.predict(img_array)
 
     k = np.argmax(predictions[0])
     score = predictions[0][k]
     print(k, score)
-    #Prediçoes com mais de 90% de certeza enviam esse o ID de volta ao servidor
+    #Prediçoes com mais de 90% de certeza tem seu ID salvo para ser enviado ao servidor
     if score > 0.9:
         print(k)
         print(img_list[k])
         selectcard = img_list[k]
+    #Quando a predição for diferente da anterior, é extraida a nova imagem usando os caminhos salvos em img_list    
         if k != oldk:
             # if img_list[k] == '.DS_Store':
             card = os.path.join(path, img_list[k], 'card_front.jpg')
@@ -57,7 +58,3 @@ def identifyimage(imgb64):
         card = card0
         oldk = -1
     return selectcard
-
-#
-# # After the loop release the cap object
-# # Destroy all the windows
