@@ -13,17 +13,24 @@ from tensorflow.keras.preprocessing.image import ImageDataGenerator
 from tensorflow.keras.models import load_model
 import cv2
 
-# CONFIG
+# Configurações de parametros diversos usados na criação dos modelos
+# Define o set de Magic a ser lido do JSON que possui todos os sets do jogo
 MAGIC_SET = "khm"
+# Define a lagura e altura em que as imagens devem ser redimensionadas para inserção na rede
 IMG_WIDTH = 224
 IMG_HEIGHT = 224
+# Nomeia a pasta com vai conter o modelo criado pela Classe 
 MODEL_NAME = "model306"
+# Caso True, é criado uma nova pasta na raiz em que o modelo vai ser desenvolvido. Caso False, a classe atualiza o modelo contido na pasta já existente
+# A pasta do modelo deve ter o mesmo nome que MODEL_NAME
 NEW_MODEL = False
+# Define se é necessário fazer o download das imagens do set escolhido
 DOWNLOAD_DATASET = False
+# Define o caminho em que as imagens devem ser salvas
 DATASET_PATH = "dataset"
-
+# Função de criação do modelo que contem a CNN
 def create_model(img_width, img_height, num_classes, model_name='modelNoName'):
-
+    # Inicia e adiciona as camadas da CNN.
     model = tf.keras.Sequential()
     model.add(layers.InputLayer(input_shape=(img_width, img_height, 3)))
     model.add(layers.experimental.preprocessing.Rescaling(1. / 255))
@@ -42,86 +49,6 @@ def create_model(img_width, img_height, num_classes, model_name='modelNoName'):
     model.add(layers.Flatten())
     model.add(layers.Dense(2048, activation='relu'))
     model.add(layers.Dense(num_classes, activation='softmax'))
-#Reteste em andamento 20/01/2020
-
-# Modelo obteve 100% de acerto nos testes de validação, porém errou todos os testes das classes main
-# 7 classes com uma imagem cada; ImageDataGenerator alterado para testar claridade e espelhamento horizontal
-# 19/01/2022
-            #layers.Conv2D(filters=16, kernel_size=(2, 2), strides=(1, 1), padding='same', activation='relu'),
-            #layers.MaxPooling2D(pool_size=(2, 2)),
-            #layers.Conv2D(filters=16, kernel_size=(2, 2), strides=(1, 1), padding='same', activation='relu'),
-            #layers.Conv2D(filters=32, kernel_size=(2, 2), strides=1, padding='same', activation='relu'),
-            #layers.MaxPooling2D(pool_size=(2, 2)),
-            #layers.Conv2D(filters=64, kernel_size=(2, 2), strides=1, padding='same', activation='relu'),
-            #layers.Conv2D(filters=64, kernel_size=(2, 2), strides=1, padding='same', activation='relu'),
-            #layers.MaxPooling2D(pool_size=(2, 2)),
-            #layers.Conv2D(filters=128, kernel_size=(2, 2), strides=1, padding='same', activation='relu'),
-            #layers.Flatten(),
-            #layers.Dense(2000, activation='relu'),
-            #layers.Dropout(0.5),
-            #layers.Dense(1000, activation='relu'),
-            #layers.Dropout(0.5),
-            #layers.Dense(343, activation='relu'),
-            #layers.Dense(7, activation='softmax')
-# Modelo com sucesso no teste com imagens no computador, 0% de acerto com imagens da camera
-# 7 classes, com uma imagem por classe
-# 17/01/2022
-# Modelo baseado nos testes de 13/01/2022
-            #layers.MaxPooling2D(pool_size=(2,2)),
-            #layers.Conv2D(filters=16, kernel_size=(2, 2), strides=(1,1), padding='same', activation='relu'),
-            #layers.Conv2D(filters=32, kernel_size=(2, 2), strides=1, padding='same', activation='relu'),
-            #layers.MaxPooling2D(pool_size=(2, 2)),
-            #layers.Conv2D(filters=64, kernel_size=(2, 2), strides=1, padding='same', activation='relu'),
-            #layers.Conv2D(filters=64, kernel_size=(2, 2), strides=1, padding='same', activation='relu'),
-            #layers.MaxPooling2D(pool_size=(2, 2)),
-            #layers.Conv2D(filters=128, kernel_size=(2, 2), strides=1, padding='same', activation='relu'),
-            #layers.Flatten(),
-            #layers.Dense(2000, activation='relu'),
-            #layers.Dropout(0.5),
-            #layers.Dense(343, activation='relu'),
-            #layers.Dense(7, activation='softmax')
-# Já testado, resultados foram horríveis, 0% de acurácia em testes de validação com 1.9 de loss constante
-# 7 classes, com uma imagem por classe
-# 14/01/2022
-            #layers.Conv2D(filters=16, kernel_size=(3, 3), strides=(1,1), padding='same', activation='relu'),
-            #layers.MaxPooling2D(pool_size=(2,2)),
-            #layers.Conv2D(filters=16, kernel_size=(3, 3), strides=(1,1), padding='same', activation='relu'),
-            #layers.MaxPooling2D(pool_size=(2, 2)),
-            #layers.Conv2D(filters=32, kernel_size=(3, 3), strides=(1, 1), padding='same', activation='relu'),
-            #layers.Conv2D(filters=32, kernel_size=(3, 3), strides=(1, 1), padding='same', activation='relu'),
-            #layers.MaxPooling2D(pool_size=(2, 2)),
-            #layers.Conv2D(filters=64, kernel_size=(3, 3), strides=(1, 1), padding='same', activation='relu'),
-            #layers.Conv2D(filters=128, kernel_size=(3, 3), strides=(1, 1), padding='same', activation='relu'),
-            #layers.MaxPooling2D(pool_size=(2, 2)),
-            #layers.Flatten(),
-            #layers.Dense(3276, activation='relu'),
-            #layers.Dropout(0.5),
-            #layers.Dense(3276, activation='relu'),
-            #layers.Dropout(0.6),
-            #layers.Dense(3276, activation='relu'),
-            #layers.Dense(7, activation='softmax')
-
-# Já testado, resultados não foram bons, após 5 treinos de 50 epocas, errou quase todas as predições
-# 7 classes, com uma imagem por classe
-# 13/01/2022
-# https://towardsdatascience.com/classify-butterfly-images-with-deep-learning-in-keras-b3101fe0f98
-            #layers.Conv2D(fiylters=32, kernel_size=(2, 2), input_shape=(img_width, img_height, 3), strides=(1,1),
-           #               padding='same', activation='relu'),
-           # layers.MaxPooling2D(pool_size=(2, 2), strides=2),
-            #layers.Conv2D(filters=32, kernel_size=(2, 2), strides=(1,1), padding='same', activation='relu'),
-            #layers.Conv2D(filters=64, kernel_size=(2, 2), strides=1, padding='same', activation='relu'),
-            #layers.MaxPooling2D(pool_size=(2, 2)),
-            #layers.Conv2D(filters=64, kernel_size=(2, 2), strides=1, padding='same', activation='relu'),
-            #layers.Conv2D(filters=128, kernel_size=(2, 2), strides=1, padding='same', activation='relu'),
-            #layers.MaxPooling2D(pool_size=(2, 2)),
-            #layers.Conv2D(filters=128, kernel_size=(2, 2), strides=1, padding='same', activation='relu'),
-            #layers.MaxPooling2D(pool_size=(2,2)),
-            #layers.Flatten(),
-            #layers.Dense(3276, activation='relu'),
-            #layers.Dropout(0.5),
-            #layers.Dense(3276, activation='relu'),
-            #layers.Dense(7, activation='softmax')
-    # Compile the model
     model.compile(optimizer='rmsprop',
                   loss='sparse_categorical_crossentropy',
                   metrics=tf.keras.metrics.SparseCategoricalAccuracy(
